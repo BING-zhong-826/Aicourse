@@ -1,0 +1,486 @@
+/* ==================== 全局样式 ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif SC', '思源宋体', 'Times New Roman', serif;
+    background-color: #fbf7e9;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.03"><path fill="none" stroke="%23333333" stroke-width="0.5" d="M20 20 L180 20 M20 40 L180 40 M20 60 L180 60 M20 80 L180 80 M20 100 L180 100 M20 120 L180 120 M20 140 L180 140 M20 160 L180 160 M20 180 L180 180 M20 20 L20 180 M40 20 L40 180 M60 20 L60 180 M80 20 L80 180 M100 20 L100 180 M120 20 L120 180 M140 20 L140 180 M160 20 L160 180 M180 20 L180 180"/></svg>');
+    color: #2c2c2c;
+    line-height: 1.6;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e8e0ce;
+}
+::-webkit-scrollbar-thumb {
+    background: #b76e3e;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8b4e2c;
+}
+
+/* ==================== 首屏 Hero 区 ==================== */
+.hero {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    background: linear-gradient(135deg, #2c2c2c 0%, #5a4a3a 100%);
+    background-image: url('https://picsum.photos/id/104/1920/1080?grayscale');
+    background-size: cover;
+    background-position: center 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 20px;
+}
+
+.hero-title {
+    font-size: 3rem;
+    letter-spacing: 6px;
+    font-weight: 600;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 215, 150, 0.6);
+    display: inline-block;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    letter-spacing: 2px;
+}
+
+.hero-arrow {
+    margin-top: 40px;
+    font-size: 28px;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(12px); }
+}
+
+/* ==================== 模块通用样式 ==================== */
+.module {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    border-bottom: 1px solid rgba(139, 78, 44, 0.2);
+}
+
+.module-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.module-title {
+    font-size: 2rem;
+    color: #8b4e2c;
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 12px;
+}
+
+.module-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: #b76e3e;
+}
+
+.module-subtitle {
+    margin-top: 12px;
+    color: #6b5a4a;
+    font-size: 0.95rem;
+}
+
+/* ==================== 理论卡片 ==================== */
+.theory-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    background: #b76e3e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: transform 0.2s;
+}
+.theory-toggle:hover {
+    transform: scale(1.05);
+    background: #8b4e2c;
+}
+.theory-toggle span {
+    font-size: 28px;
+}
+
+.theory-card {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 320px;
+    background: #fffef7;
+    border-left: 4px solid #b76e3e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 99;
+    transition: all 0.3s ease;
+    transform: translateX(400px);
+    opacity: 0;
+    pointer-events: none;
+    font-size: 0.85rem;
+}
+.theory-card.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+.theory-close {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #8b4e2c;
+}
+.theory-card h3 {
+    color: #8b4e2c;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+.theory-section {
+    margin-bottom: 16px;
+}
+.theory-section h4 {
+    color: #b76e3e;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* ==================== 地图模块 ==================== */
+.map-container {
+    background: #fffef5;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #e0d6c0;
+}
+.map-controls {
+    padding: 12px 16px;
+    background: #f5f0e4;
+    display: flex;
+    gap: 12px;
+}
+.map-btn {
+    background: white;
+    border: 1px solid #d4c8b0;
+    padding: 8px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+.map-btn.active {
+    background: #b76e3e;
+    color: white;
+    border-color: #b76e3e;
+}
+.map-btn:hover:not(.active) {
+    background: #e8dfd0;
+}
+.map-caption {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    color: #6b5a4a;
+    background: #f9f6ed;
+    border-top: 1px solid #e8e0ce;
+}
+
+/* ==================== 时间轴模块 ==================== */
+.timeline-container {
+    background: #fffef5;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+.timeline-slider-wrapper {
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.timeline-slider {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    background: #e0d6c0;
+    border-radius: 2px;
+    outline: none;
+}
+.timeline-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #b76e3e;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+.timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 0 5px;
+}
+.timeline-label {
+    font-size: 0.85rem;
+    color: #8b4e2c;
+    font-weight: 500;
+    cursor: pointer;
+}
+.timeline-dot {
+    width: 8px;
+    height: 8px;
+    background: #b76e3e;
+    border-radius: 50%;
+    margin-top: 12px;
+    transition: margin-left 0.2s ease;
+}
+.poetry-card {
+    margin-top: 30px;
+    background: #faf7ef;
+    border-radius: 16px;
+    padding: 24px;
+    border-left: 6px solid #b76e3e;
+    transition: all 0.3s ease;
+}
+.poetry-card h3 {
+    font-size: 1.2rem;
+    color: #8b4e2c;
+    margin-bottom: 12px;
+}
+.poetry-card p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+.poetry-quote {
+    font-style: italic;
+    font-size: 1rem;
+    padding: 12px;
+    background: #f0eadb;
+    border-radius: 12px;
+    color: #3c2c1c;
+    margin: 12px 0;
+}
+.poetry-audio {
+    background: #e8dfd0;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+.poetry-audio:hover {
+    background: #b76e3e;
+    color: white;
+}
+.auto-play-btn {
+    margin-top: 20px;
+    background: #8b4e2c;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    width: 100%;
+}
+.auto-play-btn:hover {
+    background: #6b3a1e;
+}
+
+/* ==================== 测验模块 ==================== */
+.quiz-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: #fffef5;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+.quiz-column {
+    flex: 1;
+    min-width: 240px;
+}
+.quiz-column-title {
+    font-size: 1.1rem;
+    color: #8b4e2c;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #e0d6c0;
+    margin-bottom: 16px;
+}
+.quiz-items, .quiz-targets {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.quiz-item, .quiz-target {
+    background: #f5f0e4;
+    padding: 12px 16px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    border: 1px solid #e0d6c0;
+}
+.quiz-item:hover, .quiz-target:hover {
+    background: #e8dfd0;
+    transform: translateX(4px);
+}
+.quiz-item.matched, .quiz-target.matched {
+    background: #c8e6d9;
+    border-color: #2e7d64;
+    cursor: default;
+    opacity: 0.7;
+    transform: none;
+}
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e0ce;
+}
+.quiz-score {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #b76e3e;
+}
+.quiz-reset-btn {
+    background: none;
+    border: 1px solid #b76e3e;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+.quiz-reset-btn:hover {
+    background: #b76e3e;
+    color: white;
+}
+.quiz-message {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #6b3a1e;
+}
+
+/* ==================== 页脚 ==================== */
+.footer {
+    background: #2c2c2c;
+    color: #ccc;
+    padding: 40px 24px;
+    margin-top: 40px;
+}
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+}
+.footer-info ul, .footer-refs ul {
+    list-style: none;
+    margin-top: 10px;
+}
+.footer-info li, .footer-refs li {
+    font-size: 0.85rem;
+    margin: 6px 0;
+}
+.footer-copyright {
+    text-align: center;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #4a4a4a;
+    font-size: 0.75rem;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.8rem;
+        letter-spacing: 3px;
+    }
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    .module-title {
+        font-size: 1.5rem;
+    }
+    .module {
+        padding: 40px 16px;
+    }
+    .quiz-container {
+        flex-direction: column;
+    }
+    .theory-card {
+        width: 280px;
+        right: 16px;
+        bottom: 90px;
+    }
+    .theory-toggle {
+        bottom: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+    }
+}

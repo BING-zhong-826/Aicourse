@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>诗景共生，文脉相承 | 岳阳楼与古典诗歌互动体验</title>
+    <!-- 引入 Leaflet 地图库 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ==================== 首屏：标题区 ==================== -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">诗景共生，文脉相承</h1>
+            <p class="hero-subtitle">——以杜甫《登岳阳楼》为例<br>研究古典诗歌与文学景观的双向互动</p>
+            <div class="hero-arrow">
+                <span>▼</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== 理论卡片（悬浮按钮触发） ==================== -->
+    <div class="theory-toggle" id="theoryToggle">
+        <span>📜</span>
+    </div>
+    <div class="theory-card" id="theoryCard">
+        <button class="theory-close" id="theoryClose">×</button>
+        <h3>📖 文学景观理论</h3>
+        <div class="theory-section">
+            <h4>定义</h4>
+            <p>“文学景观，指的是具有文学属性和文学功能的自然或人文景观。”<br>——曾大兴《文学地理学概论》</p>
+        </div>
+        <div class="theory-section">
+            <h4>叠加效应</h4>
+            <p>文学景观在生成后，随着时间的流逝又不断被后人题咏，最终形成了闻名遐迩的文学景观。</p>
+            <p><strong>岳阳楼</strong>：李白赋诗定名 → 杜甫《登岳阳楼》→ 范仲淹《岳阳楼记》→ 文脉相承，历久弥新。</p>
+        </div>
+        <div class="theory-section">
+            <h4>名句引证</h4>
+            <p>“山水藉文章以显，文章亦凭山水以传。”<br>——尤侗《天下名山游记序》</p>
+        </div>
+        <div class="theory-section">
+            <h4>核心关系</h4>
+            <p><strong>📌 诗因景生</strong>：景观为诗歌提供灵感。<br>
+            <strong>📌 景以诗传</strong>：诗歌赋予景观灵魂。<br>
+            <strong>📌 双向互动</strong>：古典诗歌与文学景观相互成就，代代相传。</p>
+        </div>
+    </div>
+
+    <!-- ==================== 模块一：空间定位 ==================== -->
+    <section class="module" id="spatial-module">
+        <div class="module-header">
+            <h2 class="module-title">🏔️ 空间定位 · 诗从景来</h2>
+            <p class="module-subtitle">文学景观的地理坐标：杜甫登临之处</p>
+        </div>
+        <div class="map-container">
+            <div class="map-controls">
+                <button class="map-btn active" id="btnModernMap">🗺️ 现代地图</button>
+                <button class="map-btn" id="btnAncientMap">🏯 古地图</button>
+            </div>
+            <div id="map" style="height: 400px; width: 100%; border-radius: 16px;"></div>
+            <div class="map-caption">
+                <p>📍 <strong>岳阳楼</strong>（113.0968°E, 29.3746°N）· 洞庭湖 · 点击标注查看诗句</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块二：时间轴叙事 ==================== -->
+    <section class="module" id="timeline-module">
+        <div class="module-header">
+            <h2 class="module-title">📜 时间轴 · 文脉相承</h2>
+            <p class="module-subtitle">跨越千年的文学叠加效应</p>
+        </div>
+        
+        <!-- 时间轴滑块 -->
+        <div class="timeline-container">
+            <div class="timeline-slider-wrapper">
+                <input type="range" id="timelineSlider" min="0" max="100" value="33" class="timeline-slider">
+                <div class="timeline-labels">
+                    <span class="timeline-label" data-value="0">唐</span>
+                    <span class="timeline-label" data-value="33">宋</span>
+                    <span class="timeline-label" data-value="100">当代</span>
+                </div>
+            </div>
+            
+            <!-- 动画指示线 -->
+            <div class="timeline-animation">
+                <div class="timeline-dot" id="timelineDot"></div>
+            </div>
+            
+            <!-- 诗歌卡片展示区 -->
+            <div class="poetry-card" id="poetryCard">
+                <!-- 动态内容由JS填充 -->
+                <div class="poetry-loading">加载中...</div>
+            </div>
+            
+            <!-- 自动播放按钮 -->
+            <button class="auto-play-btn" id="autoPlayBtn">▶ 自动漫游（唐→宋→当代）</button>
+        </div>
+    </section>
+
+    <!-- ==================== 模块三：互动测验 ==================== -->
+    <section class="module" id="quiz-module">
+        <div class="module-header">
+            <h2 class="module-title">✍️ 互动测验 · 学以致用</h2>
+            <p class="module-subtitle">匹配诗句与作者 · 测测你的文学素养</p>
+        </div>
+        
+        <div class="quiz-container" id="quizContainer">
+            <!-- 左侧：诗句列表 -->
+            <div class="quiz-column">
+                <h3 class="quiz-column-title">📜 诗句</h3>
+                <div class="quiz-items" id="quizItems"></div>
+            </div>
+            <!-- 右侧：作者/篇目列表 -->
+            <div class="quiz-column">
+                <h3 class="quiz-column-title">✍️ 作者 · 篇目</h3>
+                <div class="quiz-targets" id="quizTargets"></div>
+            </div>
+        </div>
+        
+        <div class="quiz-footer">
+            <div class="quiz-score" id="quizScore">匹配成功：0 / 4</div>
+            <button class="quiz-reset-btn" id="quizResetBtn">🔄 重置挑战</button>
+        </div>
+        <div class="quiz-message" id="quizMessage"></div>
+    </section>
+
+    <!-- ==================== 尾屏：资源与致谢 ==================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>📚 项目资源</h3>
+                <ul>
+                    <li>微课视频 · 请见课堂平台</li>
+                    <li>教学课件 PPT · 详见附件</li>
+                    <li>教学案例文档 · 项目方案书</li>
+                </ul>
+            </div>
+            <div class="footer-refs">
+                <h3>📖 参考文献</h3>
+                <ul>
+                    <li>曾大兴《文学地理学概论》</li>
+                    <li>尤侗《天下名山游记序》</li>
+                    <li>吴蕾《生成式人工智能赋能高中语文古诗词教学的有效路径》</li>
+                </ul>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2026 诗景共生，文脉相承项目组 · 以杜甫《登岳阳楼》为例</p>
+                <p>设计：丁尹乔、郑思玮、钟瑗芮、邱子桐、文飞扬</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 模块 -->
+    <script src="js/map.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
