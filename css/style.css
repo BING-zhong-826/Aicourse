@@ -12,7 +12,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ========== 启动页 ========== */
+/* ========== 启动页（背景图使用本地图片） ========== */
 .splash-screen {
     position: fixed;
     top: 0;
@@ -20,7 +20,8 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, #1e2a2a 0%, #3b2a24 100%);
-    background-image: url('assets/images/splash-bg.jpg'); /* 替换为你的背景图路径 */
+    /* 使用本地图片 assets/images/splash-bg.jpg */
+    background-image: url('../assets/images/splash-bg.jpg');
     background-size: cover;
     background-position: center;
     z-index: 1000;
@@ -36,7 +37,7 @@ body {
     pointer-events: none;
 }
 .splash-content {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.55);
     padding: 40px 60px;
     border-radius: 40px;
     backdrop-filter: blur(8px);
@@ -67,8 +68,8 @@ body {
 /* ========== 主界面 ========== */
 .hero {
     position: relative;
-    height: 40vh;
-    min-height: 300px;
+    height: 35vh;
+    min-height: 250px;
     background: linear-gradient(107deg, #1e2a2a 0%, #3b2a24 100%);
     background-image: url('https://picsum.photos/id/104/1920/1080?grayscale');
     background-size: cover;
@@ -92,7 +93,7 @@ body {
     padding: 20px;
 }
 .hero-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     letter-spacing: 6px;
     text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
     border-bottom: 2px solid #e9b35f;
@@ -101,7 +102,7 @@ body {
     margin-bottom: 20px;
 }
 .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
     max-width: 700px;
     margin: 0 auto;
 }
@@ -162,7 +163,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* 模块容器 */
+/* 模块容器 + 返回按钮 */
 #moduleContainer {
     max-width: 1300px;
     margin: 0 auto;
@@ -174,6 +175,22 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+.back-menu-btn {
+    display: inline-block;
+    background: #b46a3c;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 30px;
+    transition: 0.2s;
+}
+.back-menu-btn:hover {
+    background: #8b4a2c;
+    transform: translateX(-4px);
 }
 
 /* 地图样式 */
@@ -401,4 +418,94 @@ footer {
     .cards-menu { gap: 20px; }
     .card { padding: 20px; }
     .match-area { flex-direction: column; }
+}
+/* 匹配卡片选中高亮 */
+.match-card.selected {
+    background: #e9d8b0;
+    border: 2px solid #b46a3c;
+    box-shadow: 0 0 0 2px #fff5e8;
+}
+/* 已匹配的卡片样式 */
+.match-card.matched {
+    background: #c8e6d9;
+    border-color: #2e7d64;
+    cursor: default;
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+.target-zone.matched {
+    background: #c8e6d9;
+    border-color: #2e7d64;
+    text-decoration: line-through;
+    opacity: 0.7;
+    cursor: default;
+}
+/* 作者卡片选中高亮 */
+.target-zone.selected {
+    background: #e9d8b0;
+    border: 2px solid #b46a3c;
+    box-shadow: 0 0 0 2px #fff5e8;
+}
+/* 启动页背景图不变 */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e2a2a 0%, #3b2a24 100%);
+    background-image: url('../assets/images/splash-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;   /* 靠右对齐 */
+    align-items: center;         /* 垂直居中 */
+    padding-right: 8%;           /* 距离右侧边距 */
+    cursor: pointer;
+    transition: opacity 0.8s ease;
+}
+.splash-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 竖排文字容器 */
+.splash-content-vertical {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    padding: 30px 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 215, 150, 0.5);
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    color: #fef0dd;
+    line-height: 1.6;
+}
+
+.splash-title-vertical {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+
+.splash-subtitle-vertical {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.splash-click-vertical {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #e9b35f;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(8px);}
 }

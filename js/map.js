@@ -27,7 +27,6 @@ window.initMapModule = function(containerId) {
         唐代湖面辽阔，“坼”字写尽磅礴气势。
     `).addTo(map);
 
-    // 绑定按钮事件（注意：这些按钮在模块加载后才存在）
     setTimeout(() => {
         const modernBtn = document.getElementById('modernMapBtn');
         const ancientBtn = document.getElementById('ancientMapBtn');
