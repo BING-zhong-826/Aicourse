@@ -39,7 +39,7 @@
             ctx.fill();
         }
     }
-    for (let i = 0; i < 120; i++) particles.push(new Particle());
+    for (let i = 0; i < 100; i++) particles.push(new Particle());
     function animate() {
         ctx.clearRect(0, 0, width, height);
         for (let p of particles) {

@@ -54,17 +54,17 @@ function renderMatch() {
             if (poem.correct === target) {
                 matchState[draggedIndex] = true;
                 canvasConfetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors: ['#b46a3c', '#e9b35f'] });
-                document.getElementById('globalFeedback').innerHTML = `🎉 配对成功！「${poem.text}」 → ${target}`;
+                const fb = document.getElementById('globalFeedback');
+                if (fb) fb.innerHTML = `🎉 配对成功！「${poem.text}」 → ${target}`;
                 setTimeout(() => {
-                    if (document.getElementById('globalFeedback').innerHTML.includes('配对成功'))
-                        document.getElementById('globalFeedback').innerHTML = '';
+                    if (fb && fb.innerHTML.includes('配对成功')) fb.innerHTML = '';
                 }, 2000);
                 renderMatch();
             } else {
-                document.getElementById('globalFeedback').innerHTML = `❌ 配对错误：「${poem.text}」不属于 ${target}，再试试看～`;
+                const fb = document.getElementById('globalFeedback');
+                if (fb) fb.innerHTML = `❌ 配对错误：「${poem.text}」不属于 ${target}，再试试看～`;
                 setTimeout(() => {
-                    if (document.getElementById('globalFeedback').innerHTML.includes('配对错误'))
-                        document.getElementById('globalFeedback').innerHTML = '';
+                    if (fb && fb.innerHTML.includes('配对错误')) fb.innerHTML = '';
                 }, 1500);
             }
         });
@@ -76,17 +76,19 @@ function calcMatchScore() {
     return matchState.filter(v => v === true).length;
 }
 
-function initMatchQuiz() {
+window.initMatchQuiz = function() {
     renderMatch();
-    document.getElementById('submitMatchBtn').onclick = () => {
-        const score = calcMatchScore();
-        document.getElementById('matchScore').innerHTML = `匹配得分: ${score}/4`;
-        if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
-        if (score === 4) {
-            canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
-            document.getElementById('globalFeedback').innerHTML = "🎉 恭喜！匹配题全对！文学景观叠加效应理解深刻！";
-        }
-    };
-}
-
-window.initMatchQuiz = initMatchQuiz;
+    const submitBtn = document.getElementById('submitMatchBtn');
+    if (submitBtn) {
+        submitBtn.onclick = () => {
+            const score = calcMatchScore();
+            document.getElementById('matchScore').innerHTML = `匹配得分: ${score}/4`;
+            if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
+            if (score === 4) {
+                canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+                const fb = document.getElementById('globalFeedback');
+                if (fb) fb.innerHTML = "🎉 恭喜！匹配题全对！文学景观叠加效应理解深刻！";
+            }
+        };
+    }
+};

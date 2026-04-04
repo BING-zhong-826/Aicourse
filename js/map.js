@@ -3,10 +3,14 @@ let currentLayer;
 const yueyangCoords = [29.3746, 113.0968];
 const dongtingCoords = [29.2, 112.9];
 
-function initMap() {
-    map = L.map('map').setView(yueyangCoords, 9);
+window.initMapModule = function(containerId) {
+    if (map) {
+        map.remove();
+        map = null;
+    }
+    map = L.map(containerId).setView(yueyangCoords, 9);
     const modernLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB'
+        attribution: '&copy; OSM & CartoDB'
     });
     modernLayer.addTo(map);
     currentLayer = modernLayer;
@@ -23,30 +27,35 @@ function initMap() {
         唐代湖面辽阔，“坼”字写尽磅礴气势。
     `).addTo(map);
 
-    document.getElementById('modernMapBtn').onclick = () => {
-        map.removeLayer(currentLayer);
-        const newLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OSM & CartoDB'
-        });
-        newLayer.addTo(map);
-        currentLayer = newLayer;
-        document.getElementById('modernMapBtn').classList.add('active');
-        document.getElementById('ancientMapBtn').classList.remove('active');
-        localStorage.setItem('mapVisited', 'true');
-        if (typeof updateProgressBadges === 'function') updateProgressBadges();
-    };
-    document.getElementById('ancientMapBtn').onclick = () => {
-        map.removeLayer(currentLayer);
-        const ancientLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-            attribution: 'Map tiles by Stamen Design'
-        });
-        ancientLayer.addTo(map);
-        currentLayer = ancientLayer;
-        document.getElementById('ancientMapBtn').classList.add('active');
-        document.getElementById('modernMapBtn').classList.remove('active');
-        localStorage.setItem('mapVisited', 'true');
-        if (typeof updateProgressBadges === 'function') updateProgressBadges();
-    };
-}
-
-document.addEventListener('DOMContentLoaded', initMap);
+    // 绑定按钮事件（注意：这些按钮在模块加载后才存在）
+    setTimeout(() => {
+        const modernBtn = document.getElementById('modernMapBtn');
+        const ancientBtn = document.getElementById('ancientMapBtn');
+        if (modernBtn && ancientBtn) {
+            modernBtn.onclick = () => {
+                map.removeLayer(currentLayer);
+                const newLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; OSM & CartoDB'
+                });
+                newLayer.addTo(map);
+                currentLayer = newLayer;
+                modernBtn.classList.add('active');
+                ancientBtn.classList.remove('active');
+                localStorage.setItem('mapVisited', 'true');
+                if (typeof window.updateProgressBadges === 'function') window.updateProgressBadges();
+            };
+            ancientBtn.onclick = () => {
+                map.removeLayer(currentLayer);
+                const ancientLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+                    attribution: 'Map tiles by Stamen Design'
+                });
+                ancientLayer.addTo(map);
+                currentLayer = ancientLayer;
+                ancientBtn.classList.add('active');
+                modernBtn.classList.remove('active');
+                localStorage.setItem('mapVisited', 'true');
+                if (typeof window.updateProgressBadges === 'function') window.updateProgressBadges();
+            };
+        }
+    }, 100);
+};

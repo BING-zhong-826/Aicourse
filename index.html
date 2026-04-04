@@ -14,104 +14,61 @@
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
-
-<header class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1 class="hero-title">诗景共生 · 文脉相承</h1>
-        <p class="hero-subtitle">以杜甫《登岳阳楼》为例 — 古典诗歌与文学景观的双向互动</p>
-        <div class="hero-arrow" onclick="document.getElementById('spatial').scrollIntoView({behavior:'smooth'})">▼</div>
+<!-- 启动页 -->
+<div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+        <h1 class="splash-title">诗景共生 · 文脉相承</h1>
+        <p class="splash-subtitle">以杜甫《登岳阳楼》为例 — 古典诗歌与文学景观的双向互动</p>
+        <p class="splash-click">▼ 点击任意位置进入 ▼</p>
     </div>
-</header>
-
-<!-- 学习进度徽章 -->
-<div class="progress-badge" id="progressBadges">
-    <div class="badge" id="badgeMap">🗺️ 地图未探</div>
-    <div class="badge" id="badgeTimeline">📜 未阅文脉</div>
-    <div class="badge" id="badgeQuiz">✍️ 测验未通</div>
 </div>
 
-<!-- 模块一：空间定位 -->
-<section class="module" id="spatial">
-    <div class="module-header">
-        <h2 class="module-title">🏔️ 空间定位 · 诗从景来</h2>
-        <p class="module-subtitle">地理坐标中的文学震撼</p>
-    </div>
-    <div class="map-container">
-        <div class="map-controls">
-            <button class="map-btn active" id="modernMapBtn">🗺️ 现代地图</button>
-            <button class="map-btn" id="ancientMapBtn">🏯 古风地图</button>
+<!-- 主界面（初始隐藏） -->
+<div id="mainApp" style="display: none;">
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">诗景共生 · 文脉相承</h1>
+            <p class="hero-subtitle">以杜甫《登岳阳楼》为例 — 古典诗歌与文学景观的双向互动</p>
         </div>
-        <div id="map"></div>
-        <div class="map-caption">📍 岳阳楼（29.3746°N, 113.0968°E）· 洞庭湖 · 点击标注品读诗句</div>
-    </div>
-</section>
+    </header>
 
-<!-- 模块二：时间轴叙事 -->
-<section class="module">
-    <div class="module-header">
-        <h2 class="module-title">📜 时间轴 · 文脉相承</h2>
-        <p class="module-subtitle">叠加效应：李白 → 杜甫 → 范仲淹 → 今日记忆</p>
+    <!-- 学习进度徽章 -->
+    <div class="progress-badge" id="progressBadges">
+        <div class="badge" id="badgeMap">🗺️ 地图未探</div>
+        <div class="badge" id="badgeTimeline">📜 未阅文脉</div>
+        <div class="badge" id="badgeQuiz">✍️ 测验未通</div>
     </div>
-    <div class="timeline-container">
-        <input type="range" id="timelineSlider" class="timeline-slider" min="0" max="100" value="33">
-        <div class="timeline-labels">
-            <span>唐 (768)</span>
-            <span>宋 (1046)</span>
-            <span>当代</span>
+
+    <!-- 功能卡片菜单 -->
+    <div class="cards-menu" id="cardsMenu">
+        <div class="card" data-module="spatial">
+            <div class="card-icon">🏔️</div>
+            <h2>空间定位</h2>
+            <p>诗从景来 · 地理坐标中的文学震撼</p>
         </div>
-        <div id="poetryCard" class="poetry-card"></div>
-        <button id="autoPlayBtn" class="auto-play-btn">▶ 自动漫游 · 千年文脉</button>
-    </div>
-</section>
-
-<!-- 模块三：课后测试 -->
-<section class="module">
-    <div class="module-header">
-        <h2 class="module-title">✍️ 课后测试 · 深度研习</h2>
-        <p class="module-subtitle">基础通关 + 拓展挑战 + 深度鉴赏</p>
-    </div>
-
-    <!-- 填空题 -->
-    <div class="quiz-section" id="fillSection">
-        <div class="quiz-title">📝 一、诗词填空（基础通关）</div>
-        <div id="fillQuestionsContainer"></div>
-        <button id="submitFillBtn" class="btn-submit-module">📌 提交填空题 · 得分</button>
-        <div id="fillScore" class="score-badge" style="float:right;">填空题得分: 0/3</div>
-        <div style="clear:both"></div>
-    </div>
-
-    <!-- 匹配题 -->
-    <div class="quiz-section" id="matchSection">
-        <div class="quiz-title">🔗 二、拓展挑战 · 拖拽匹配</div>
-        <div class="match-area" id="matchArea">
-            <div class="match-column"><h3>📜 诗句卡片</h3><div id="poemsList"></div></div>
-            <div class="match-column"><h3>🎯 拖拽到对应作者/篇目</h3><div id="targetsList"></div></div>
+        <div class="card" data-module="timeline">
+            <div class="card-icon">📜</div>
+            <h2>时间轴叙事</h2>
+            <p>文脉相承 · 叠加效应千年流转</p>
         </div>
-        <button id="submitMatchBtn" class="btn-submit-module">🎯 提交匹配题 · 得分</button>
-        <div id="matchScore" class="score-badge" style="float:right;">匹配得分: 0/4</div>
-        <div style="clear:both"></div>
+        <div class="card" data-module="quiz">
+            <div class="card-icon">✍️</div>
+            <h2>课后测试</h2>
+            <p>深度研习 · 基础通关到拓展挑战</p>
+        </div>
     </div>
 
-    <!-- 选择题 -->
-    <div class="quiz-section" id="choiceSection">
-        <div class="quiz-title">🧠 三、深度鉴赏 · 选择题</div>
-        <div id="choiceQuestionsContainer"></div>
-        <button id="submitChoiceBtn" class="btn-submit-module">📖 提交选择题 · 得分</button>
-        <div id="choiceScore" class="score-badge" style="float:right;">选择题得分: 0/3</div>
-        <div style="clear:both"></div>
-    </div>
+    <!-- 模块容器：每次只显示一个 -->
+    <div id="moduleContainer"></div>
 
-    <div class="total-score" id="totalScoreDisplay">🏆 累计总分: 0 / 10</div>
-    <div id="globalFeedback" class="feedback"></div>
-</section>
+    <footer>
+        <p>© 2026 诗景共生，文脉相承项目组 · 参考文献：曾大兴《文学地理学概论》 尤侗《天下名山游记序》</p>
+    </footer>
+</div>
 
-<footer>
-    <p>© 2026 诗景共生，文脉相承项目组 · 参考文献：曾大兴《文学地理学概论》 尤侗《天下名山游记序》</p>
-</footer>
+<canvas id="particles-canvas"></canvas>
 
-<!-- 所有 JavaScript 模块按依赖顺序加载 -->
 <script src="js/utils.js"></script>
 <script src="js/particles.js"></script>
 <script src="js/map.js"></script>
@@ -122,32 +79,6 @@
 <script src="js/audioRecite.js"></script>
 <script src="js/imageMemory.js"></script>
 <script src="js/progress.js"></script>
-<script>
-    // 页面初始化
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof initFillQuiz === 'function') initFillQuiz();
-        if (typeof initMatchQuiz === 'function') initMatchQuiz();
-        if (typeof initChoiceQuiz === 'function') initChoiceQuiz();
-        if (typeof initProgress === 'function') initProgress();
-        // 触发一次总分计算
-        updateTotalScore();
-    });
-    // 全局总分更新函数（供各模块调用）
-    window.updateTotalScore = function() {
-        const fillSc = parseInt(document.getElementById('fillScore').innerText.match(/\d+/)[0]);
-        const matchSc = parseInt(document.getElementById('matchScore').innerText.match(/\d+/)[0]);
-        const choiceSc = parseInt(document.getElementById('choiceScore').innerText.match(/\d+/)[0]);
-        const total = fillSc + matchSc + choiceSc;
-        document.getElementById('totalScoreDisplay').innerHTML = `🏆 累计总分: ${total} / 10`;
-        if(total === 10) {
-            canvasConfetti({ particleCount: 300, spread: 120, origin: { y: 0.5 } });
-            document.getElementById('globalFeedback').innerHTML = "✨ 恭喜晋级！文脉相承，诗景共生，您已掌握杜甫《登岳阳楼》精粹 ✨";
-            localStorage.setItem('quizPassed', 'true');
-        } else {
-            localStorage.setItem('quizPassed', 'false');
-        }
-        if (typeof updateProgressBadges === 'function') updateProgressBadges();
-    };
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -9,20 +9,66 @@ body {
     background-color: #fef7e8;
     color: #2e241f;
     line-height: 1.6;
-    scroll-behavior: smooth;
     overflow-x: hidden;
 }
 
-/* 滚动条 */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #e8ddce; border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: #b46a3c; border-radius: 4px; }
+/* ========== 启动页 ========== */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e2a2a 0%, #3b2a24 100%);
+    background-image: url('assets/images/splash-bg.jpg'); /* 替换为你的背景图路径 */
+    background-size: cover;
+    background-position: center;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.8s ease;
+}
+.splash-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+.splash-content {
+    background: rgba(0,0,0,0.5);
+    padding: 40px 60px;
+    border-radius: 40px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,215,150,0.5);
+}
+.splash-title {
+    font-size: 3rem;
+    color: #fef0dd;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.splash-subtitle {
+    font-size: 1.2rem;
+    color: #fef0dd;
+    margin-bottom: 30px;
+}
+.splash-click {
+    font-size: 1rem;
+    color: #e9b35f;
+    animation: bounce 1.5s infinite;
+}
+@keyframes bounce {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(10px);}
+}
 
-/* Hero 区 */
+/* ========== 主界面 ========== */
 .hero {
     position: relative;
-    height: 70vh;
-    min-height: 450px;
+    height: 40vh;
+    min-height: 300px;
     background: linear-gradient(107deg, #1e2a2a 0%, #3b2a24 100%);
     background-image: url('https://picsum.photos/id/104/1920/1080?grayscale');
     background-size: cover;
@@ -46,9 +92,8 @@ body {
     padding: 20px;
 }
 .hero-title {
-    font-size: 3.2rem;
-    letter-spacing: 8px;
-    font-weight: 600;
+    font-size: 2.5rem;
+    letter-spacing: 6px;
     text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
     border-bottom: 2px solid #e9b35f;
     display: inline-block;
@@ -56,51 +101,82 @@ body {
     margin-bottom: 20px;
 }
 .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     max-width: 700px;
     margin: 0 auto;
-    letter-spacing: 2px;
 }
-.hero-arrow {
-    margin-top: 40px;
-    font-size: 28px;
-    animation: bounce 2s infinite;
-    cursor: pointer;
-}
-@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(12px);} }
 
-/* 模块通用 */
-.module {
+/* 进度徽章 */
+.progress-badge {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    max-width: 1300px;
+    margin: 20px auto 0;
+    padding: 0 30px;
+}
+.badge {
+    background: #e7d9c8;
+    border-radius: 40px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+}
+
+/* 功能卡片菜单 */
+.cards-menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 30px;
+}
+.card {
+    background: #fffaf0;
+    border-radius: 28px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 220px;
+    border: 1px solid #e2cfb5;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+    background: #fff5e8;
+}
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+.card h2 {
+    color: #8b4a2c;
+    margin-bottom: 10px;
+}
+.card p {
+    color: #6a4e3a;
+    font-size: 0.9rem;
+}
+
+/* 模块容器 */
+#moduleContainer {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 70px 30px;
-    border-bottom: 1px solid rgba(180, 106, 60, 0.2);
+    padding: 0 30px 60px;
 }
-.module-header {
-    text-align: center;
-    margin-bottom: 45px;
+.module {
+    animation: fadeIn 0.5s ease;
 }
-.module-title {
-    font-size: 2rem;
-    color: #8b4a2c;
-    position: relative;
-    display: inline-block;
-    letter-spacing: 2px;
-}
-.module-title:before, .module-title:after {
-    content: "❦";
-    font-size: 1.2rem;
-    color: #c28a5c;
-    margin: 0 15px;
-    opacity: 0.7;
-}
-.module-subtitle {
-    color: #6a4e3a;
-    margin-top: 8px;
-    font-style: italic;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* 地图 */
+/* 地图样式 */
 .map-container {
     background: #fffaf0;
     border-radius: 28px;
@@ -123,12 +199,10 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .map-btn.active {
     background: #b46a3c;
     color: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 #map { height: 420px; width: 100%; border-radius: 20px; background: #e8ddce; }
 .map-caption { padding: 10px 20px; background: #f9f3e8; font-size: 0.85rem; color: #5d3a24; border-top: 1px solid #e2cfb5; }
@@ -155,7 +229,6 @@ body {
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 .timeline-labels {
     display: flex;
@@ -185,9 +258,7 @@ body {
     border-radius: 30px;
     cursor: pointer;
     margin-top: 8px;
-    transition: 0.2s;
 }
-.audio-btn:hover { background: #b46a3c; color: white; }
 .auto-play-btn {
     margin-top: 20px;
     background: #8b4a2c;
@@ -250,8 +321,8 @@ body {
     border-radius: 48px;
     cursor: grab;
     user-select: none;
-    transition: 0.2s;
     border: 1px solid #e2cfb5;
+    transition: 0.1s;
 }
 .match-card.dragging {
     opacity: 0.5;
@@ -295,9 +366,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
-    transition: 0.2s;
 }
-.btn-submit-module:hover { background: #8b4a2c; transform: translateY(-2px); }
 .score-badge {
     display: inline-block;
     background: #e7d9c8;
@@ -320,29 +389,16 @@ body {
     padding-top: 20px;
     border-top: 2px dashed #d9c8b2;
 }
-.progress-badge {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    max-width: 1300px;
-    margin: 20px auto 0;
-    padding: 0 30px;
-}
-.badge {
-    background: #e7d9c8;
-    border-radius: 40px;
-    padding: 6px 16px;
-    font-size: 0.8rem;
-}
 footer {
     background: #2e241f;
     color: #ddd;
-    padding: 40px 30px;
+    padding: 30px;
     text-align: center;
     font-size: 0.8rem;
 }
 @media (max-width: 780px) {
-    .hero-title { font-size: 2rem; letter-spacing: 4px; }
-    .module { padding: 40px 20px; }
+    .hero-title { font-size: 1.8rem; }
+    .cards-menu { gap: 20px; }
+    .card { padding: 20px; }
     .match-area { flex-direction: column; }
 }

@@ -1,4 +1,3 @@
-// 通用工具函数
 window.speakText = function(text) {
     if ('speechSynthesis' in window) {
         let utterance = new SpeechSynthesisUtterance(text);

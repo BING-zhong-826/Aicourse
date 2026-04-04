@@ -57,13 +57,14 @@ function calcChoiceScore() {
     return score;
 }
 
-function initChoiceQuiz() {
+window.initChoiceQuiz = function() {
     renderChoiceQuiz();
-    document.getElementById('submitChoiceBtn').onclick = () => {
-        const score = calcChoiceScore();
-        document.getElementById('choiceScore').innerHTML = `选择题得分: ${score}/3`;
-        if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
-    };
-}
-
-window.initChoiceQuiz = initChoiceQuiz;
+    const submitBtn = document.getElementById('submitChoiceBtn');
+    if (submitBtn) {
+        submitBtn.onclick = () => {
+            const score = calcChoiceScore();
+            document.getElementById('choiceScore').innerHTML = `选择题得分: ${score}/3`;
+            if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
+        };
+    }
+};

@@ -23,6 +23,8 @@ const timelineData = {
     }
 };
 
+let timelineSlider, autoInterval;
+
 function renderTimeline(periodKey) {
     const data = timelineData[periodKey];
     const container = document.getElementById('poetryCard');
@@ -36,29 +38,37 @@ function renderTimeline(periodKey) {
     });
     container.innerHTML = html;
     localStorage.setItem('timelineVisited', 'true');
-    if (typeof updateProgressBadges === 'function') updateProgressBadges();
+    if (typeof window.updateProgressBadges === 'function') window.updateProgressBadges();
 }
 
-const slider = document.getElementById('timelineSlider');
 function updateTimeline(value) {
     if (value <= 33) renderTimeline('tang');
     else if (value <= 66) renderTimeline('song');
     else renderTimeline('modern');
 }
-slider.addEventListener('input', (e) => updateTimeline(parseInt(e.target.value)));
-updateTimeline(33);
 
-let autoInterval;
-document.getElementById('autoPlayBtn').onclick = () => {
-    if (autoInterval) clearInterval(autoInterval);
-    let val = 0;
-    slider.value = 0;
-    updateTimeline(0);
-    autoInterval = setInterval(() => {
-        if (val <= 100) {
-            slider.value = val;
-            updateTimeline(val);
-            val += 2;
-        } else clearInterval(autoInterval);
-    }, 60);
+window.initTimelineModule = function() {
+    const slider = document.getElementById('timelineSlider');
+    if (!slider) return;
+    timelineSlider = slider;
+    updateTimeline(33);
+    slider.value = 33;
+    slider.addEventListener('input', (e) => updateTimeline(parseInt(e.target.value)));
+    
+    const autoBtn = document.getElementById('autoPlayBtn');
+    if (autoBtn) {
+        autoBtn.onclick = () => {
+            if (autoInterval) clearInterval(autoInterval);
+            let val = 0;
+            slider.value = 0;
+            updateTimeline(0);
+            autoInterval = setInterval(() => {
+                if (val <= 100) {
+                    slider.value = val;
+                    updateTimeline(val);
+                    val += 2;
+                } else clearInterval(autoInterval);
+            }, 60);
+        };
+    }
 };

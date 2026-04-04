@@ -44,12 +44,13 @@ function checkFill() {
     return score;
 }
 
-function initFillQuiz() {
+window.initFillQuiz = function() {
     renderFillQuiz();
-    document.getElementById('submitFillBtn').onclick = () => {
-        checkFill();
-        if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
-    };
-}
-
-window.initFillQuiz = initFillQuiz;
+    const submitBtn = document.getElementById('submitFillBtn');
+    if (submitBtn) {
+        submitBtn.onclick = () => {
+            checkFill();
+            if (typeof window.updateTotalScore === 'function') window.updateTotalScore();
+        };
+    }
+};
