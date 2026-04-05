@@ -419,32 +419,38 @@ footer {
     .card { padding: 20px; }
     .match-area { flex-direction: column; }
 }
-/* 匹配卡片选中高亮 */
+/* 诗句卡片选中高亮（橙色） */
 .match-card.selected {
-    background: #e9d8b0;
-    border: 2px solid #b46a3c;
+    background: #f5a623;
+    border-color: #c47d2e;
+    color: white;
     box-shadow: 0 0 0 2px #fff5e8;
 }
-/* 已匹配的卡片样式 */
-.match-card.matched {
-    background: #c8e6d9;
-    border-color: #2e7d64;
-    cursor: default;
-    opacity: 0.7;
-    text-decoration: line-through;
-}
-.target-zone.matched {
-    background: #c8e6d9;
-    border-color: #2e7d64;
-    text-decoration: line-through;
-    opacity: 0.7;
-    cursor: default;
-}
-/* 作者卡片选中高亮 */
+
+/* 作者卡片选中高亮（蓝色） */
 .target-zone.selected {
-    background: #e9d8b0;
-    border: 2px solid #b46a3c;
+    background: #4a90e2;
+    border-color: #2c5aa0;
+    color: white;
     box-shadow: 0 0 0 2px #fff5e8;
+}
+
+/* 作者卡片错误高亮（红色） */
+.target-zone.error {
+    background: #e25c5c;
+    border-color: #a03232;
+    color: white;
+    box-shadow: 0 0 0 2px #fff5e8;
+    transition: background 0.2s;
+}
+
+/* 已匹配的卡片样式（灰色） */
+.match-card.matched, .target-zone.matched {
+    background: #c8e6d9;
+    border-color: #2e7d64;
+    text-decoration: line-through;
+    opacity: 0.7;
+    cursor: default;
 }
 /* 启动页背景图不变 */
 .splash-screen {

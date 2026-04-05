@@ -6,12 +6,12 @@ const rawMatchData = [
     { text: "先天下之忧而忧，后天下之乐而乐。", correct: "范仲淹《岳阳楼记》" }
 ];
 
-let matchItems = [];      // 存储打乱后的诗句列表 [{ text, correct, matched }]
-let targetOptions = [];   // 存储打乱后的作者列表 [{ name, matched }]
-let selectedItemIndex = null;  // 当前选中的诗句索引
-let selectedTargetIndex = null; // 当前选中的作者索引（仅用于高亮）
+let matchItems = [];      // 诗句列表
+let targetOptions = [];   // 作者列表
+let selectedItemIndex = null;   // 当前选中的诗句索引
+let selectedTargetIndex = null; // 当前选中的作者索引
 
-// 打乱数组函数
+// 打乱数组
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -20,7 +20,7 @@ function shuffleArray(arr) {
     return arr;
 }
 
-// 初始化或重置匹配数据（顺序打乱）
+// 初始化数据
 function initMatchData() {
     matchItems = rawMatchData.map(item => ({
         text: item.text,
@@ -28,7 +28,6 @@ function initMatchData() {
         matched: false
     }));
     matchItems = shuffleArray(matchItems);
-
     const uniqueTargets = [...new Set(rawMatchData.map(item => item.correct))];
     targetOptions = uniqueTargets.map(name => ({ name, matched: false }));
     targetOptions = shuffleArray(targetOptions);
@@ -36,17 +35,17 @@ function initMatchData() {
 
 // 清除所有高亮
 function clearHighlights() {
-    document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('.target-zone').forEach(t => t.classList.remove('selected'));
+    document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected', 'error'));
+    document.querySelectorAll('.target-zone').forEach(t => t.classList.remove('selected', 'error'));
 }
 
-// 渲染匹配界面（诗句卡片 + 作者卡片）
+// 渲染界面
 function renderMatch() {
     const poemsContainer = document.getElementById('poemsList');
     const targetsContainer = document.getElementById('targetsList');
     if (!poemsContainer || !targetsContainer) return;
 
-    // 渲染左侧诗句卡片
+    // 渲染诗句卡片
     poemsContainer.innerHTML = '';
     matchItems.forEach((item, idx) => {
         const card = document.createElement('div');
@@ -55,10 +54,8 @@ function renderMatch() {
         card.dataset.index = idx;
         if (!item.matched) {
             card.addEventListener('click', () => {
-                // 清除所有高亮
                 clearHighlights();
-                // 高亮当前诗句
-                card.classList.add('selected');
+                card.classList.add('selected');  // 橙色高亮
                 selectedItemIndex = idx;
                 selectedTargetIndex = null;
             });
@@ -68,7 +65,7 @@ function renderMatch() {
         poemsContainer.appendChild(card);
     });
 
-    // 渲染右侧作者卡片
+    // 渲染作者卡片
     targetsContainer.innerHTML = '';
     targetOptions.forEach((target, idx) => {
         const zone = document.createElement('div');
@@ -77,8 +74,8 @@ function renderMatch() {
         zone.dataset.targetIdx = idx;
         if (!target.matched) {
             zone.addEventListener('click', () => {
-                // 先清除其他作者高亮，然后高亮当前作者
-                document.querySelectorAll('.target-zone').forEach(t => t.classList.remove('selected'));
+                // 先清除其他作者高亮，再高亮当前作者（蓝色）
+                document.querySelectorAll('.target-zone').forEach(t => t.classList.remove('selected', 'error'));
                 zone.classList.add('selected');
                 selectedTargetIndex = idx;
 
@@ -90,6 +87,7 @@ function renderMatch() {
                     setTimeout(() => zone.classList.remove('selected'), 1000);
                     return;
                 }
+
                 const selectedItem = matchItems[selectedItemIndex];
                 if (selectedItem.matched) {
                     const fb = document.getElementById('globalFeedback');
@@ -98,6 +96,7 @@ function renderMatch() {
                     zone.classList.remove('selected');
                     return;
                 }
+
                 if (selectedItem.correct === target.name) {
                     // 配对成功
                     selectedItem.matched = true;
@@ -105,22 +104,22 @@ function renderMatch() {
                     canvasConfetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors: ['#b46a3c', '#e9b35f'] });
                     const fb = document.getElementById('globalFeedback');
                     if (fb) fb.innerHTML = `🎉 配对成功！「${selectedItem.text}」 → ${target.name}`;
-                    setTimeout(() => {
-                        if (fb && fb.innerHTML.includes('配对成功')) fb.innerHTML = '';
-                    }, 2000);
+                    setTimeout(() => { if (fb) fb.innerHTML = ''; }, 2000);
                     selectedItemIndex = null;
                     selectedTargetIndex = null;
                     clearHighlights();
                     renderMatch(); // 重新渲染
                 } else {
+                    // 配对错误：作者显示红色高亮，然后消失，诗句保持橙色高亮
+                    zone.classList.remove('selected');
+                    zone.classList.add('error');
                     const fb = document.getElementById('globalFeedback');
                     if (fb) fb.innerHTML = `❌ 配对错误：「${selectedItem.text}」不属于 ${target.name}，再试试看～`;
                     setTimeout(() => {
-                        if (fb && fb.innerHTML.includes('配对错误')) fb.innerHTML = '';
-                    }, 1500);
-                    // 配对错误：只清除作者高亮，诗句高亮保留以便重选
-                    zone.classList.remove('selected');
-                    // 注意：不清除 selectedItemIndex，诗句仍保持高亮
+                        if (fb) fb.innerHTML = '';
+                        zone.classList.remove('error');
+                    }, 1000);
+                    // 不清除诗句高亮，让用户可以继续尝试其他作者
                 }
             });
         } else {
@@ -130,19 +129,19 @@ function renderMatch() {
         targetsContainer.appendChild(zone);
     });
 
-    // 如果有之前选中的诗句，恢复高亮（重绘后需要重新绑定）
+    // 恢复之前选中的诗句高亮（重绘后）
     if (selectedItemIndex !== null && matchItems[selectedItemIndex] && !matchItems[selectedItemIndex].matched) {
         const cards = document.querySelectorAll('.match-card');
         if (cards[selectedItemIndex]) cards[selectedItemIndex].classList.add('selected');
     }
 }
 
-// 计算当前匹配得分
+// 计算得分
 function calcMatchScore() {
     return matchItems.filter(item => item.matched).length;
 }
 
-// 外部调用初始化
+// 外部初始化
 window.initMatchQuiz = function() {
     initMatchData();
     selectedItemIndex = null;
