@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // 启动页逻辑
   const splash = document.getElementById('splashScreen');
   const mainApp = document.getElementById('mainApp');
   splash.addEventListener('click', () => {
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 800);
   });
 
+  // 模块 HTML 模板
   const modules = {
     spatial: `
       <div class="module">
@@ -19,17 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="module-subtitle">地理坐标中的文学震撼</p>
         </div>
         <div class="map-container">
-          <div class="map-controls">
-            <button class="map-btn active" id="modernMapBtn">🗺️ 现代地图</button>
-            <button class="map-btn" id="ancientMapBtn">🏯 古风地图</button>
-          </div>
           <div id="map"></div>
-          <div class="map-caption">📍 岳阳楼（29.3746°N, 113.0968°E）· 洞庭湖 · 点击标注品读诗句</div>
+          <div class="map-caption">📍 岳阳楼 · 洞庭湖 · 吴地 · 楚地 — 点击标注品读诗句</div>
         </div>
       </div>
     `,
     timeline: `
       <div class="module">
+        <!-- 时间轴内容由 initTimelineModule 动态生成 -->
       </div>
     `,
     quiz: `
@@ -72,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `
   };
 
+  // 全局总分更新函数
   window.updateTotalScore = function() {
     const fillSc = parseInt(document.getElementById('fillScore')?.innerText.match(/\d+/)?.[0] || '0');
     const matchSc = parseInt(document.getElementById('matchScore')?.innerText.match(/\d+/)?.[0] || '0');
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof window.updateProgressBadges === 'function') window.updateProgressBadges();
   };
 
+  // 加载模块
   function loadModule(moduleName) {
     const container = document.getElementById('moduleContainer');
     container.innerHTML = modules[moduleName];
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     document.getElementById('cardsMenu').style.display = 'none';
+
     if (moduleName === 'spatial') {
       if (typeof window.initMapModule === 'function') window.initMapModule('map');
     } else if (moduleName === 'timeline') {
@@ -113,9 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 卡片点击事件
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => {
     card.addEventListener('click', () => loadModule(card.dataset.module));
   });
+
+  // 初始显示菜单卡片
   document.getElementById('cardsMenu').style.display = 'flex';
 });

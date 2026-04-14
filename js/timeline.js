@@ -29,7 +29,7 @@ window.showPoemDetail = function(index) {
   if (!poem) return;
   currentPoem = poem;
   overlay.style.backgroundImage = `url('assets/images/${poem.bg}')`;
-  detailTitle.innerText = `${poem.year} · ${poem.author} · 《${poem.title}》`;
+  detailTitle.innerText = `${poem.year}年 · ${poem.author} · 《${poem.title}》`;
   detailText.innerText = poem.content;
   detailNote.innerText = `📌 ${poem.note}`;
   overlay.classList.add('active');
@@ -65,14 +65,15 @@ window.initTimelineModule = function() {
       <div class="timeline-stream-container">
   `;
   timelineData.forEach((poem, index) => {
-    html += `
-      <div class="timeline-card" onclick="window.showPoemDetail(${index})">
-        <div class="year">${poem.year}</div>
-        <div class="author">${poem.author}</div>
-        <div class="title">《${poem.title}》</div>
-      </div>
-    `;
-  });
+  html += `
+    <div class="timeline-card" onclick="window.showPoemDetail(${index})">
+      <div class="year">${poem.year}年</div>   <!-- 这里加上“年” -->
+      <div class="author">${poem.author}</div>
+      <div class="title">《${poem.title}》</div>
+    </div>
+  `;
+});
+  
   html += `</div></div>`;
   container.innerHTML = html;
 

@@ -26,17 +26,39 @@ body {
 }
 .splash-screen.fade-out { opacity: 0; pointer-events: none; }
 
+/* ========== 启动页 ========== */
+.splash-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('../assets/images/cover-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 1000;
+  cursor: pointer;
+  transition: opacity 0.8s ease;
+}
+.splash-screen.fade-out { opacity: 0; pointer-events: none; }
+
+/* ========== 主应用容器 ========== */
+#mainApp {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* ========== 进度徽章 ========== */
 .progress-badge {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
   max-width: 1300px;
-  margin: 25px auto 0;
-  padding: 0 30px;
+  margin: 12vh auto 20px;
+  padding: 0 30px 15px;
 }
 .badge {
-  background: rgba(20, 20, 20, 0.6);
+  background: rgba(20, 20, 20, 0.35);
   backdrop-filter: blur(6px);
   color: #e5d9cc;
   border-radius: 40px;
@@ -52,11 +74,13 @@ body {
   gap: 40px;
   flex-wrap: wrap;
   max-width: 1200px;
-  margin: 60px auto;
-  padding: 0 30px;
+  margin: 0 auto;
+  padding: 15px 30px 0;
 }
+/* 卡片样式保持不变 */
+/* 其余卡片样式保持不变 */
 .card {
-  background: rgba(18, 18, 18, 0.7);
+  background: rgba(18, 18, 18, 0.4);  /* 降低透明度 */
   backdrop-filter: blur(10px);
   border-radius: 32px;
   padding: 40px 24px;
@@ -71,7 +95,7 @@ body {
 }
 .card:hover {
   transform: translateY(-10px);
-  background: rgba(30, 30, 30, 0.8);
+  background: rgba(30, 30, 30, 0.55);
   border-color: #d4a76a;
 }
 .card-icon { font-size: 3.5rem; margin-bottom: 20px; }
@@ -94,7 +118,8 @@ body {
 
 .back-menu-btn {
   display: inline-block;
-  background: #a67c4e;
+  background: rgba(166, 124, 78, 0.8);  /* 半透明 */
+  backdrop-filter: blur(4px);
   color: #f5ede1;
   border: none;
   padding: 12px 28px;
@@ -105,7 +130,7 @@ body {
   border: 1px solid rgba(255,215,150,0.4);
   transition: 0.2s;
 }
-.back-menu-btn:hover { background: #c49a6c; transform: translateX(-4px); }
+.back-menu-btn:hover { background: rgba(196, 154, 108, 0.9); transform: translateX(-4px); }
 
 /* ========== 模块标题 ========== */
 .module-header { text-align: center; margin-bottom: 40px; }
@@ -116,6 +141,7 @@ body {
   position: relative;
   display: inline-block;
   padding-bottom: 15px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 }
 .module-title::after {
   content: '';
@@ -131,34 +157,17 @@ body {
 
 /* ========== 地图容器 ========== */
 .map-container {
-  background: rgba(20,20,20,0.6);
+  background: rgba(20, 20, 20, 0.35);  /* 更透明 */
   backdrop-filter: blur(8px);
   border-radius: 28px;
   box-shadow: 0 12px 28px rgba(0,0,0,0.4);
   overflow: hidden;
   border: 1px solid rgba(210,180,140,0.3);
 }
-.map-controls {
-  padding: 15px 20px;
-  background: rgba(0,0,0,0.3);
-  display: flex;
-  gap: 20px;
-}
-.map-btn {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(210,180,140,0.4);
-  color: #ece1d4;
-  padding: 8px 24px;
-  border-radius: 40px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.map-btn.active { background: #b48b5a; color: #fff; border-color: #dbb78c; }
 #map { height: 420px; width: 100%; }
 .map-caption {
   padding: 12px 20px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.25);
   font-size: 0.85rem;
   color: #d4c4b0;
   border-top: 1px solid rgba(210,180,140,0.2);
@@ -166,7 +175,7 @@ body {
 
 /* ========== 时间轴蜿蜒小溪样式 ========== */
 .timeline-stream {
-  background: rgba(18,18,18,0.6);
+  background: rgba(18, 18, 18, 0.35);  /* 更透明 */
   backdrop-filter: blur(8px);
   border-radius: 48px;
   padding: 30px 20px;
@@ -185,7 +194,6 @@ body {
   position: relative;
   min-width: max-content;
 }
-/* 蜿蜒河流曲线 */
 .timeline-stream-container::before {
   content: '';
   position: absolute;
@@ -200,7 +208,7 @@ body {
 }
 .timeline-card {
   display: inline-block;
-  background: rgba(25,25,25,0.8);
+  background: rgba(20, 50, 40, 0.4);  /* 更透明 */
   backdrop-filter: blur(4px);
   border-radius: 50px 50px 30px 30px;
   padding: 20px 20px 40px 20px;
@@ -216,7 +224,7 @@ body {
 }
 .timeline-card:hover {
   transform: translateY(-12px);
-  background: rgba(40,40,40,0.9);
+  background: rgba(20, 65, 35, 0.55);
   border-color: #d4a76a;
 }
 .timeline-card .year {
@@ -252,7 +260,7 @@ body {
   width: 90%;
   max-width: 900px;
   max-height: 85vh;
-  background: rgba(0,0,0,0.7);
+  background: rgba(10, 45, 20, 0.65);  /* 稍微透明，让背景图透出 */
   backdrop-filter: blur(12px);
   border-radius: 40px;
   padding: 30px;
@@ -284,7 +292,7 @@ body {
 
 /* ========== 测验样式 ========== */
 .quiz-section {
-  background: rgba(18,18,18,0.65);
+  background: rgba(18, 18, 18, 0.35);  /* 更透明 */
   backdrop-filter: blur(8px);
   border-radius: 32px;
   padding: 32px;
@@ -299,7 +307,7 @@ body {
   margin-bottom: 30px;
 }
 .fill-blank-item {
-  background: rgba(30,30,30,0.5);
+  background: rgba(30, 30, 30, 0.3);  /* 更透明 */
   margin: 20px 0;
   padding: 24px;
   border-radius: 24px;
@@ -311,7 +319,7 @@ body {
   margin-right: 15px;
   border: 1px solid #a67c4e;
   border-radius: 50px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
   font-family: inherit;
 }
@@ -327,7 +335,7 @@ body {
 .match-column { flex: 1; min-width: 260px; }
 .match-column h3 { color: #dac09e; margin-bottom: 18px; }
 .match-card {
-  background: rgba(45,45,45,0.7);
+  background: rgba(45, 45, 45, 0.4);  /* 更透明 */
   margin: 12px 0;
   padding: 16px 20px;
   border-radius: 40px;
@@ -345,7 +353,7 @@ body {
   cursor: default;
 }
 .target-zone {
-  background: rgba(35,35,35,0.7);
+  background: rgba(35, 35, 35, 0.4);  /* 更透明 */
   border: 2px dashed #a67c4e;
   border-radius: 40px;
   padding: 16px 20px;
@@ -367,7 +375,7 @@ body {
 .choice-item {
   margin: 25px 0;
   padding: 20px 25px;
-  background: rgba(30,30,30,0.5);
+  background: rgba(30, 30, 30, 0.3);  /* 更透明 */
   border-radius: 28px;
 }
 .choice-option {
@@ -378,7 +386,7 @@ body {
 input[type="radio"] { accent-color: #b48b5a; margin-right: 8px; }
 
 .btn-submit-module {
-  background: #a67c4e;
+  background: rgba(166, 124, 78, 0.85);
   color: #f3eadc;
   border: none;
   padding: 14px 32px;
@@ -386,22 +394,31 @@ input[type="radio"] { accent-color: #b48b5a; margin-right: 8px; }
   font-weight: bold;
   cursor: pointer;
   margin-top: 25px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(230,200,160,0.5);
+  transition: 0.2s;
 }
+.btn-submit-module:hover { background: rgba(196, 154, 108, 0.95); }
+
 .score-badge {
   display: inline-block;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
   padding: 8px 24px;
   border-radius: 40px;
   margin-left: 20px;
   color: #eaceb0;
+  border: 1px solid rgba(210,180,140,0.4);
 }
+
 .feedback {
   margin-top: 20px;
   padding: 16px;
   border-radius: 24px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.25);
   color: #ebd7c0;
 }
+
 .total-score {
   text-align: right;
   font-size: 1.4rem;
@@ -412,8 +429,10 @@ input[type="radio"] { accent-color: #b48b5a; margin-right: 8px; }
   color: #ecdcc0;
 }
 
+/* 页脚 */
 footer {
-  background: #0c0c0c;
+  background: rgba(12, 12, 12, 0.6);
+  backdrop-filter: blur(4px);
   color: #a0988a;
   padding: 30px;
   text-align: center;
@@ -421,6 +440,7 @@ footer {
   margin-top: 40px;
 }
 
+/* 响应式 */
 @media (max-width: 780px) {
   .cards-menu { gap: 20px; }
   .match-area { flex-direction: column; }
