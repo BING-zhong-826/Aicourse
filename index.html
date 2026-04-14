@@ -1,83 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>诗景共生·文脉相承 | 岳阳楼与古典诗歌</title>
-    <!-- Leaflet 地图库 -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- canvas-confetti 彩屑 -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
-    <!-- 自定义样式 -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/particles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>诗景共生·文脉相承 | 岳阳楼与古典诗歌</title>
+  <!-- Leaflet 地图库 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- canvas-confetti 彩屑 -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/particles.css">
 </head>
 <body>
+  <!-- 启动页（纯背景图） -->
+  <div id="splashScreen" class="splash-screen"></div>
 
-<!-- 启动页（背景图使用 assets/images/splash-bg.jpg） -->
-<div id="splashScreen" class="splash-screen">
-    <div class="splash-content-vertical">
-        <div class="splash-title-vertical">诗<br>景<br>共<br>生<br>·<br>文<br>脉<br>相<br>承</div>
-        <div class="splash-click-vertical">▼<br>点<br>击<br>任<br>意<br>位<br>置<br>进<br>入<br>▼</div>
-    </div>
-</div>
-
-<!-- 主界面（初始隐藏） -->
-<div id="mainApp" style="display: none;">
-    <header class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">诗景共生 · 文脉相承</h1>
-            <p class="hero-subtitle">以杜甫《登岳阳楼》为例 — 古典诗歌与文学景观的双向互动</p>
-        </div>
-    </header>
-
-    <!-- 学习进度徽章（动态显示） -->
+  <!-- 主界面（初始隐藏） -->
+  <div id="mainApp" style="display: none;">
+    <!-- 进度徽章 -->
     <div class="progress-badge" id="progressBadges">
-        <div class="badge" id="badgeMap">🗺️ 地图未探</div>
-        <div class="badge" id="badgeTimeline">📜 未阅文脉</div>
-        <div class="badge" id="badgeQuiz">✍️ 测验未通</div>
+      <div class="badge" id="badgeMap">🗺️ 地图未探</div>
+      <div class="badge" id="badgeTimeline">📜 未阅文脉</div>
+      <div class="badge" id="badgeQuiz">✍️ 测验未通</div>
     </div>
 
     <!-- 功能卡片菜单 -->
     <div class="cards-menu" id="cardsMenu">
-        <div class="card" data-module="spatial">
-            <div class="card-icon">🏔️</div>
-            <h2>空间定位</h2>
-            <p>诗从景来 · 地理坐标中的文学震撼</p>
-        </div>
-        <div class="card" data-module="timeline">
-            <div class="card-icon">📜</div>
-            <h2>时间轴叙事</h2>
-            <p>文脉相承 · 叠加效应千年流转</p>
-        </div>
-        <div class="card" data-module="quiz">
-            <div class="card-icon">✍️</div>
-            <h2>课后测试</h2>
-            <p>深度研习 · 基础通关到拓展挑战</p>
-        </div>
+      <div class="card" data-module="spatial">
+        <div class="card-icon">🏔️</div>
+        <h2>空间定位</h2>
+        <p>诗从景来 · 地理坐标中的文学震撼</p>
+      </div>
+      <div class="card" data-module="timeline">
+        <div class="card-icon">📜</div>
+        <h2>时间轴叙事</h2>
+        <p>文脉相承 · 千年诗歌溪流</p>
+      </div>
+      <div class="card" data-module="quiz">
+        <div class="card-icon">✍️</div>
+        <h2>课后测试</h2>
+        <p>深度研习 · 基础通关到拓展挑战</p>
+      </div>
     </div>
 
-    <!-- 动态模块容器（点击卡片后显示模块内容） -->
+    <!-- 动态模块容器 -->
     <div id="moduleContainer"></div>
 
+    <!-- 诗歌详情浮层（全屏） -->
+    <div id="poemDetailOverlay" class="poem-detail-overlay">
+      <div class="poem-detail-content">
+        <button class="close-detail-btn" id="closeDetailBtn">&times; 返回时间轴</button>
+        <div class="poem-detail-scroll">
+          <h2 id="detailTitle"></h2>
+          <div id="detailPoemText" class="detail-poem-text"></div>
+          <p id="detailNote" class="detail-note"></p>
+          <button class="audio-btn" id="detailAudioBtn">🔊 朗诵此篇</button>
+        </div>
+      </div>
+    </div>
+
     <footer>
-        <p>© 2026 诗景共生，文脉相承项目组 · 参考文献：曾大兴《文学地理学概论》 尤侗《天下名山游记序》</p>
+      <p>© 2026 诗景共生，文脉相承项目组 · 参考文献：曾大兴《文学地理学概论》 尤侗《天下名山游记序》</p>
     </footer>
-</div>
+  </div>
 
-<canvas id="particles-canvas"></canvas>
+  <canvas id="particles-canvas"></canvas>
 
-<!-- 所有 JS 模块 -->
-<script src="js/utils.js"></script>
-<script src="js/particles.js"></script>
-<script src="js/map.js"></script>
-<script src="js/timeline.js"></script>
-<script src="js/fillQuiz.js"></script>
-<script src="js/matchQuiz.js"></script>
-<script src="js/choiceQuiz.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/main.js"></script>
+  <!-- JS 模块 -->
+  <script src="js/utils.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/fillQuiz.js"></script>
+  <script src="js/matchQuiz.js"></script>
+  <script src="js/choiceQuiz.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
